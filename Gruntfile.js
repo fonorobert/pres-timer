@@ -5,8 +5,7 @@ module.exports = function(grunt) {
   concat: {
     options: {
       stripBanners: true,
-      banner: '/*! <%= pkg.name %> - v<%= pkg.version %> compiled on ' +
-        '<%= grunt.template.today("yyyy-mm-dd") %> */',
+      banner: '/*! <%= pkg.name %> - v<%= pkg.version %> development version compiled on ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
     },
     dev: {
       src: ['src/js/*.js'],
@@ -16,6 +15,9 @@ module.exports = function(grunt) {
 
   uglify: {
     prod: {
+      options: {
+        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> Build date: ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
+      }
       files: {
         'js/main.min.js': ['src/js/*.js'],
       }
