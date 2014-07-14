@@ -1,0 +1,20 @@
+{
+  "name": "pres-timer",
+  "version": "0.0.1",
+  "homepage": "https://github.com/fonorobert/pres-timer",
+  "authors": [
+    "@fonorobert"
+  ],
+  "description": "A multi-window, javascript based presentation timer",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
