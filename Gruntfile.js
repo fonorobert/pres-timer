@@ -8,8 +8,8 @@ module.exports = function(grunt) {
       banner: '/*! <%= pkg.name %> - v<%= pkg.version %> Build date: ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
     },
     dev: {
-      src: ['src/js/*.js'],
-      dest: 'js/main.js',
+      src: ['src/js/timer.js'],
+      dest: 'js/timer.js',
     },
   },
 
@@ -17,11 +17,11 @@ module.exports = function(grunt) {
     prod: {
       options: {
         banner: '/*! <%= pkg.name %> - v<%= pkg.version %> Build date: ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
-      }
+      },
       files: {
-        'js/main.min.js': ['src/js/*.js'],
-      }
-    }
+        'js/timer.min.js': ['src/js/timer.js'],
+      },
+    },
   },
 
   jshint: {
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
     dev: {
       files: {
         "css/main.css": "src/less/*.less",
-      }
+      },
     },
     prod: {
       options: {
