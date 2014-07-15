@@ -21,10 +21,10 @@ function Timer()
 		{
 			windowName = '';
 		}
-		var theWindow = window.open(windowPath, windowName, '_blank', 'menubar=no, location=no, status=no, titlebar=no, toolbar=no' );
-		this.timerWindow = theWindow;
-		console.log(this.timerWindow);
-		theWindow.addEventListener('tick', function(){
+		//var theWindow = window.open(windowPath, windowName, '_blank', 'menubar=no, location=no, status=no, titlebar=no, toolbar=no' );
+		//this.timerWindow = theWindow;
+		//console.log(this.timerWindow);
+		this.timerWindow.addEventListener('tick', function(){
 			console.log('tick');
 		});
 	};
