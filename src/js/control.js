@@ -9,6 +9,9 @@ function Control() {
 		var interval = document.querySelector('input[name="interval"]');
 		var setTime = document.querySelector('#setTime');
 		
+		var setTimeEvent = new CustomEvent('setTime', {'detail': this.readTime()});
+		window.dispatchEvent(setTimeEvent);
+
 		window.addEventListener('tick', function(e){
 			var time = e.detail;
 			that.writeTime(time);
@@ -20,8 +23,8 @@ function Control() {
 		});
 
 		setTime.addEventListener('click', function(){
-			var setTime = new CustomEvent('setTime', {'detail': that.readTime()});
-			window.dispatchEvent(setTime);
+			var setTimeEvent = new CustomEvent('setTime', {'detail': that.readTime()});
+			window.dispatchEvent(setTimeEvent);
 		});
 
 		start.addEventListener('click', function(){
@@ -37,6 +40,9 @@ function Control() {
 		stop.addEventListener('click', function(){
 			var stopTimer = new Event('stop');
 			window.dispatchEvent(stopTimer);
+
+			var setTime = new CustomEvent('setTime', {'detail': that.readTime()});
+			window.dispatchEvent(setTime);
 		});
 
 
@@ -54,6 +60,19 @@ function Control() {
 		var hours = document.querySelector('input[name="hours"]').value;
 		var minutes = document.querySelector('input[name="minutes"]').value;
 		var seconds = document.querySelector('input[name="seconds"]').value;
+		if (hours === ''|| hours === null || hours === undefined)
+		{
+			hours = 0;
+		}
+		if (minutes === ''|| minutes === null || minutes === undefined)
+		{
+			minutes = 0;
+		}
+		if (seconds === ''|| seconds === null || seconds === undefined)
+		{
+			seconds = 0;
+		}
+
 		var time = {'hours': hours, 'minutes': minutes, 'seconds': seconds};
 		return time;
 	};

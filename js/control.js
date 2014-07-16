@@ -8,7 +8,7 @@ function Timer()
 
 	this.interval = 1000;
 	this.paused = false;
-	this.defaultTime = 60; //Default time, this is where the this.stop() resetsthe timer after stopping
+	this.defaultTime = 60; //Default time, this is where the this.stop() resets the timer after stopping
 	this.remainingTime = this.defaultTime; //Sets timer to defaultTime on instantiation (first run)
 	this.timeArray = {};
 	this.timerWindow = window;
@@ -39,13 +39,14 @@ function Timer()
 			self.stop();
 		});
 		this.controlWindow.addEventListener('setTime', function(e){
-			var time = e.detail.hours * 3600 + e.detail.minutes * 60 + e.detail.seconds;
+			var time = parseInt(e.detail.hours) * 3600 + parseInt(e.detail.minutes) * 60 + parseInt(e.detail.seconds);
 			self.setTime(time);
 		});
 		this.controlWindow.addEventListener('setInterval', function(e){
 			var interval = e.detail;
 			self.setInterval(interval);
 		});
+
 	};
 
 	//The main method that performs the countdown
@@ -54,7 +55,7 @@ function Timer()
 		if(this.paused !== true && this.remainingTime > 0)
 		{
 			this.remainingTime -= 1;
-			console.log(this.remainingTime);
+			//console.log(this.remainingTime);
 			this.timeArray = this.convertTime(this.remainingTime);
 			var tick = new CustomEvent('tick', {'detail': this.timeArray});
 			this.timerWindow.dispatchEvent(tick);
@@ -96,7 +97,7 @@ function Timer()
 		var minutes = Math.floor(sec % 3600 / 60);
 		var hours = Math.floor(sec / 3600);
 		
-		if (hours.length < 2)
+		/*if (hours.length < 2)
 		{
 			hours = '0' + hours;
 		}
@@ -107,7 +108,7 @@ function Timer()
 		if (seconds.length < 2)
 		{
 			seconds = '0' + seconds;
-		}
+		}*/
 		
 		var result = {'hours': hours, 'minutes': minutes, 'seconds': seconds};
 		return result;
@@ -150,6 +151,9 @@ function Control() {
 		var interval = document.querySelector('input[name="interval"]');
 		var setTime = document.querySelector('#setTime');
 		
+		var setTimeEvent = new CustomEvent('setTime', {'detail': this.readTime()});
+		window.dispatchEvent(setTimeEvent);
+
 		window.addEventListener('tick', function(e){
 			var time = e.detail;
 			that.writeTime(time);
@@ -161,8 +165,8 @@ function Control() {
 		});
 
 		setTime.addEventListener('click', function(){
-			var setTime = new CustomEvent('setTime', {'detail': that.readTime()});
-			window.dispatchEvent(setTime);
+			var setTimeEvent = new CustomEvent('setTime', {'detail': that.readTime()});
+			window.dispatchEvent(setTimeEvent);
 		});
 
 		start.addEventListener('click', function(){
@@ -178,6 +182,9 @@ function Control() {
 		stop.addEventListener('click', function(){
 			var stopTimer = new Event('stop');
 			window.dispatchEvent(stopTimer);
+
+			var setTime = new CustomEvent('setTime', {'detail': that.readTime()});
+			window.dispatchEvent(setTime);
 		});
 
 
@@ -195,6 +202,19 @@ function Control() {
 		var hours = document.querySelector('input[name="hours"]').value;
 		var minutes = document.querySelector('input[name="minutes"]').value;
 		var seconds = document.querySelector('input[name="seconds"]').value;
+		if (hours === ''|| hours === null || hours === undefined)
+		{
+			hours = 0;
+		}
+		if (minutes === ''|| minutes === null || minutes === undefined)
+		{
+			minutes = 0;
+		}
+		if (seconds === ''|| seconds === null || seconds === undefined)
+		{
+			seconds = 0;
+		}
+
 		var time = {'hours': hours, 'minutes': minutes, 'seconds': seconds};
 		return time;
 	};
