@@ -14,10 +14,24 @@
 
   </head>
   <body>
+  	<h2>Remaining time</h2>
+  	<div id="counter"></div>
+  	<button id="start">Start</button><button id="pause">Pause</button><button id="stop">Stop</button>
+  	<h2>Set up</h2>
+  	<h3>Countdown time</h3>
+  	<input type="number" name="hours">:<input type="number" name="minutes">:<input type="number" name="seconds">
+  	<button id="setTime">Set</button>
+    <h3>Counter speed</h3>
+    80%<input type="range" step="100" name="interval" min="800" max="1200" value="1000">120%
 
-    
 
     
     <script src="js/control.js"></script>
+    <script type="text/javascript">
+    	var timer = new Timer();
+			var control = new Control();
+			control.build();
+			timer.build();
+    </script>
   </body>
 </html>

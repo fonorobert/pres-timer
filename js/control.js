@@ -27,7 +27,25 @@ function Timer()
 			windowPath = 'display.html';
 		}
 		var theWindow = window.open(windowPath, windowName, '_blank', 'menubar=no, location=no, status=no, titlebar=no, toolbar=no' );
-		this.timerWindow = theWindow; 
+		this.timerWindow = theWindow;
+
+		this.controlWindow.addEventListener('start', function(){
+			self.start();
+		});
+		this.controlWindow.addEventListener('pause', function(){
+			self.pause();
+		});
+		this.controlWindow.addEventListener('stop', function(){
+			self.stop();
+		});
+		this.controlWindow.addEventListener('setTime', function(e){
+			var time = e.detail.hours * 3600 + e.detail.minutes * 60 + e.detail.seconds;
+			self.setTime(time);
+		});
+		this.controlWindow.addEventListener('setInterval', function(e){
+			var interval = e.detail;
+			self.setInterval(interval);
+		});
 	};
 
 	//The main method that performs the countdown
@@ -40,6 +58,7 @@ function Timer()
 			this.timeArray = this.convertTime(this.remainingTime);
 			var tick = new CustomEvent('tick', {'detail': this.timeArray});
 			this.timerWindow.dispatchEvent(tick);
+			this.controlWindow.dispatchEvent(tick);
 			this.controlWindow.setTimeout('self.tick()', this.interval);
 		} else {
 			return false;
@@ -71,13 +90,33 @@ function Timer()
 		}
 	};
 
-	//Converts any time given to it in seconds to h-m-s in an object
+	//Converts any time given to it in seconds to h-m-s in an array
 	this.convertTime = function(sec) {
 		var seconds = sec % 60;
 		var minutes = Math.floor(sec % 3600 / 60);
 		var hours = Math.floor(sec / 3600);
+		
+		if (hours.length < 2)
+		{
+			hours = '0' + hours;
+		}
+		if (minutes.length < 2)
+		{
+			minutes = '0' + minutes;
+		}
+		if (seconds.length < 2)
+		{
+			seconds = '0' + seconds;
+		}
+		
 		var result = {'hours': hours, 'minutes': minutes, 'seconds': seconds};
 		return result;
+	};
+
+	//Converts any array that has time under 'seconds', 'minutes' and 'hours' keys to seconds
+	this.decodeTime = function(time){
+		var sec = time.hours *3600 + time.minutes * 60 + time.seconds;
+		return sec;
 	};
 
 	//Start the countdown
@@ -100,5 +139,70 @@ function Timer()
 	};
 
 }
+//The class managing the conrtol window
+function Control() {
+	that = this;
 
-var timer = new Timer();
+	this.build = function() {
+		var start = document.querySelector('#start');
+		var pause = document.querySelector('#pause');
+		var stop = document.querySelector('#stop');
+		var interval = document.querySelector('input[name="interval"]');
+		var setTime = document.querySelector('#setTime');
+		
+		window.addEventListener('tick', function(e){
+			var time = e.detail;
+			that.writeTime(time);
+		});
+
+		interval.addEventListener('change', function(){
+			var setInterval = new CustomEvent('setInterval', {'detail': that.readInterval()});
+			window.dispatchEvent(setInterval);
+		});
+
+		setTime.addEventListener('click', function(){
+			var setTime = new CustomEvent('setTime', {'detail': that.readTime()});
+			window.dispatchEvent(setTime);
+		});
+
+		start.addEventListener('click', function(){
+			var startTimer = new Event('start');
+			window.dispatchEvent(startTimer);
+		});
+
+		pause.addEventListener('click', function(){
+			var pauseTimer = new Event('pause');
+			window.dispatchEvent(pauseTimer);
+		});
+
+		stop.addEventListener('click', function(){
+			var stopTimer = new Event('stop');
+			window.dispatchEvent(stopTimer);
+		});
+
+
+
+	};
+	
+	//Write the current remaining time to the #counter div
+	this.writeTime = function(time) {
+		var counter = document.querySelector('#counter');
+		counter.innerHTML = time.hours + ':' + time.minutes + ':' + time.seconds;
+	};
+
+	//Read the set time from the inputs
+	this.readTime = function() {
+		var hours = document.querySelector('input[name="hours"]').value;
+		var minutes = document.querySelector('input[name="minutes"]').value;
+		var seconds = document.querySelector('input[name="seconds"]').value;
+		var time = {'hours': hours, 'minutes': minutes, 'seconds': seconds};
+		return time;
+	};
+
+	this.readInterval = function() {
+		var interval = document.querySelector('input[name="interval"]').value;
+		return interval;
+	};
+
+	
+}
