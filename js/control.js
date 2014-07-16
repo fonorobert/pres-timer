@@ -38,7 +38,7 @@ function Timer()
 			this.remainingTime -= 1;
 			console.log(this.remainingTime);
 			this.timeArray = this.convertTime(this.remainingTime);
-			var tick = new CustomEvent('tick', {'detail': this.remainingTime});
+			var tick = new CustomEvent('tick', {'detail': this.timeArray});
 			this.timerWindow.dispatchEvent(tick);
 			this.controlWindow.setTimeout('self.tick()', this.interval);
 		} else {
@@ -74,8 +74,8 @@ function Timer()
 	//Converts any time given to it in seconds to h-m-s in an object
 	this.convertTime = function(sec) {
 		var seconds = sec % 60;
-		var minutes = Math.floor(sec/60);
-		var hours = Math.floor(sec/3600);
+		var minutes = Math.floor(sec % 3600 / 60);
+		var hours = Math.floor(sec / 3600);
 		var result = {'hours': hours, 'minutes': minutes, 'seconds': seconds};
 		return result;
 	};

@@ -1,3 +1,3 @@
 window.addEventListener('tick', function(e){
-	console.log('tick ' + e.detail);
+	console.log(e.detail);
 });
