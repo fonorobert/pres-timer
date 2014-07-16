@@ -1,4 +1,4 @@
-/*! pres-timer - v0.0.1 Build date: 2014-07-15 *///The Timer class
+/*! pres-timer - v0.0.1 Build date: 2014-07-16 *///The Timer class
 
 function Timer()
 {
@@ -12,20 +12,20 @@ function Timer()
 	this.remainingTime = this.defaultTime; //Sets timer to defaultTime on instantiation (first run)
 	this.timeArray = {};
 	this.timerWindow = window;
+	this.controlWindow = window;
 
 
 	this.build = function(windowPath, windowName) {
-		var tick = new CustomEvent('tick', {'detail': {'name': 'tick'}});
-		console.log(tick);
+		
 		if(!windowName)
 		{
 			windowName = '';
 		}
-		//var theWindow = window.open(windowPath, windowName, '_blank', 'menubar=no, location=no, status=no, titlebar=no, toolbar=no' );
-		//this.timerWindow = theWindow;
+		var theWindow = window.open(windowPath, windowName, '_blank', 'menubar=no, location=no, status=no, titlebar=no, toolbar=no' );
+		this.timerWindow = theWindow;
 		//console.log(this.timerWindow);
 		this.timerWindow.addEventListener('tick', function(){
-			console.log('tick');
+			this.timerWindow.querySelector('body').innerHTML='tick';
 		});
 	};
 
@@ -34,11 +34,12 @@ function Timer()
 	this.tick = function() {
 		if(this.paused !== true && this.remainingTime > 0)
 		{
+			var tick = new Event('tick');
 			this.remainingTime -= 1;
 			console.log(this.remainingTime);
 			this.timeArray = this.convertTime(this.remainingTime);
 			this.timerWindow.dispatchEvent(tick);
-			this.timerWindow.setTimeout('self.tick()', this.interval);
+			this.controlWindow.setTimeout('self.tick()', this.interval);
 		} else {
 			return false;
 		}

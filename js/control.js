@@ -1,4 +1,4 @@
-//The Timer class
+/*! pres-timer - v0.0.1 Build date: 2014-07-16 *///The Timer class
 
 function Timer()
 {

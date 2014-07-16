@@ -7,9 +7,13 @@ module.exports = function(grunt) {
       stripBanners: true,
       banner: '/*! <%= pkg.name %> - v<%= pkg.version %> Build date: ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
     },
-    dev: {
-      src: ['src/js/timer.js'],
-      dest: 'js/timer.js',
+    dev_control: {
+      src: ['src/js/timer.js', 'src/js/control.js'],
+      dest: 'js/control.js',
+    },
+    dev_display: {
+      src: ['src/js/display.js'],
+      dest: 'js/display.js',
     },
   },
 
@@ -19,7 +23,8 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> - v<%= pkg.version %> Build date: ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
       },
       files: {
-        'js/timer.min.js': ['src/js/timer.js'],
+        'js/control.min.js': ['src/js/timer.js', 'src/js/control.js'],
+        'js/display.min.js': ['src/js/display.js']
       },
     },
   },
@@ -48,7 +53,7 @@ module.exports = function(grunt) {
   watch: {
     js: {
       files: ['src/js/*.js'],
-      tasks: ['jshint:dev', 'concat:dev'],
+      tasks: ['jshint:dev', 'concat:dev_control', 'concat:dev_display'],
     },
     less: {
       files: ['src/less/*.less'],
@@ -71,7 +76,7 @@ grunt.loadNpmTasks('grunt-contrib-jshint');
 grunt.loadNpmTasks('grunt-contrib-concat');
 
 
-grunt.registerTask('dev', ['jshint:dev', 'concat:dev', 'less:dev']);
+grunt.registerTask('dev', ['jshint:dev', 'concat:dev_control', 'concat:dev_display', 'less:dev']);
 grunt.registerTask('prof', ['uglify:prod', 'less:prod']);
 
 
