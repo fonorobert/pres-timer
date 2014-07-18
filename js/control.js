@@ -1,4 +1,4 @@
-/*! pres-timer - v0.0.1 Build date: 2014-07-16 *///The Timer class
+/*! pres-timer - v0.0.1 Build date: 2014-07-18 *///The Timer class
 
 function Timer()
 {
@@ -190,10 +190,23 @@ function Control() {
 
 
 	};
+
+	//Format time given to it in an array to have '0' ahead of one character numbers
+	this.formatTime = function(timeObject) {
+		for(var key in timeObject)
+		{
+			if(timeObject[key] < 10 || timeObject[key].length < 2)
+			{
+				timeObject[key] = '0' + timeObject[key];
+			}
+		}
+		return timeObject;
+	};
 	
 	//Write the current remaining time to the #counter div
 	this.writeTime = function(time) {
 		var counter = document.querySelector('#counter');
+		time = this.formatTime(time);
 		counter.innerHTML = time.hours + ':' + time.minutes + ':' + time.seconds;
 	};
 
