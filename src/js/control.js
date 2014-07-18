@@ -8,9 +8,6 @@ function Control() {
 		var stop = document.querySelector('#stop');
 		var interval = document.querySelector('input[name="interval"]');
 		var setTime = document.querySelector('#setTime');
-		
-		var setTimeEvent = new CustomEvent('setTime', {'detail': this.readTime()});
-		window.dispatchEvent(setTimeEvent);
 
 		window.addEventListener('tick', function(e){
 			var time = e.detail;
@@ -45,12 +42,18 @@ function Control() {
 			window.dispatchEvent(setTime);
 		});
 
-
+		//Initial setTime - tick event pair to show time on launch
+		var setTimeEvent = new CustomEvent('setTime', {'detail': this.readTime()});
+		window.dispatchEvent(setTimeEvent);
 
 	};
 
 	//Format time given to it in an array to have '0' ahead of one character numbers
 	this.formatTime = function(timeObject) {
+		for(var k in timeObject)
+		{
+			timeObject[k] = parseInt(timeObject[k]);
+		}
 		for(var key in timeObject)
 		{
 			if(timeObject[key] < 10 || timeObject[key].length < 2)
@@ -61,9 +64,9 @@ function Control() {
 		return timeObject;
 	};
 	
-	//Write the current remaining time to the #counter div
+	//Write the current remaining time to the .counter div
 	this.writeTime = function(time) {
-		var counter = document.querySelector('#counter');
+		var counter = document.querySelector('#counter_control');
 		time = this.formatTime(time);
 		counter.innerHTML = time.hours + ':' + time.minutes + ':' + time.seconds;
 	};

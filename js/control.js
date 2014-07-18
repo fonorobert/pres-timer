@@ -14,7 +14,6 @@ function Timer()
 	this.timerWindow = window;
 	this.controlWindow = window;
 
-
 	this.build = function(windowPath, windowName) {
 		
 		//Prepare and open the countdown display window
@@ -41,12 +40,23 @@ function Timer()
 		this.controlWindow.addEventListener('setTime', function(e){
 			var time = parseInt(e.detail.hours) * 3600 + parseInt(e.detail.minutes) * 60 + parseInt(e.detail.seconds);
 			self.setTime(time);
+			self.timeArray = self.convertTime(self.remainingTime);
+			self.tickEvent();
 		});
 		this.controlWindow.addEventListener('setInterval', function(e){
 			var interval = e.detail;
 			self.setInterval(interval);
 		});
+		this.timerWindow.addEventListener('getTime', function(){
+			self.tickEvent();
+		});
 
+	};
+
+	this.tickEvent = function() {
+		var tick = new CustomEvent('tick', {'detail': this.timeArray});
+		this.controlWindow.dispatchEvent(tick);
+		this.timerWindow.dispatchEvent(tick);
 	};
 
 	//The main method that performs the countdown
@@ -57,9 +67,7 @@ function Timer()
 			this.remainingTime -= 1;
 			//console.log(this.remainingTime);
 			this.timeArray = this.convertTime(this.remainingTime);
-			var tick = new CustomEvent('tick', {'detail': this.timeArray});
-			this.timerWindow.dispatchEvent(tick);
-			this.controlWindow.dispatchEvent(tick);
+			this.tickEvent();
 			this.controlWindow.setTimeout('self.tick()', this.interval);
 		} else {
 			return false;
@@ -95,21 +103,7 @@ function Timer()
 	this.convertTime = function(sec) {
 		var seconds = sec % 60;
 		var minutes = Math.floor(sec % 3600 / 60);
-		var hours = Math.floor(sec / 3600);
-		
-		/*if (hours.length < 2)
-		{
-			hours = '0' + hours;
-		}
-		if (minutes.length < 2)
-		{
-			minutes = '0' + minutes;
-		}
-		if (seconds.length < 2)
-		{
-			seconds = '0' + seconds;
-		}*/
-		
+		var hours = Math.floor(sec / 3600);		
 		var result = {'hours': hours, 'minutes': minutes, 'seconds': seconds};
 		return result;
 	};
@@ -150,9 +144,6 @@ function Control() {
 		var stop = document.querySelector('#stop');
 		var interval = document.querySelector('input[name="interval"]');
 		var setTime = document.querySelector('#setTime');
-		
-		var setTimeEvent = new CustomEvent('setTime', {'detail': this.readTime()});
-		window.dispatchEvent(setTimeEvent);
 
 		window.addEventListener('tick', function(e){
 			var time = e.detail;
@@ -187,12 +178,18 @@ function Control() {
 			window.dispatchEvent(setTime);
 		});
 
-
+		//Initial setTime - tick event pair to show time on launch
+		var setTimeEvent = new CustomEvent('setTime', {'detail': this.readTime()});
+		window.dispatchEvent(setTimeEvent);
 
 	};
 
 	//Format time given to it in an array to have '0' ahead of one character numbers
 	this.formatTime = function(timeObject) {
+		for(var k in timeObject)
+		{
+			timeObject[k] = parseInt(timeObject[k]);
+		}
 		for(var key in timeObject)
 		{
 			if(timeObject[key] < 10 || timeObject[key].length < 2)
@@ -203,9 +200,9 @@ function Control() {
 		return timeObject;
 	};
 	
-	//Write the current remaining time to the #counter div
+	//Write the current remaining time to the .counter div
 	this.writeTime = function(time) {
-		var counter = document.querySelector('#counter');
+		var counter = document.querySelector('#counter_control');
 		time = this.formatTime(time);
 		counter.innerHTML = time.hours + ':' + time.minutes + ':' + time.seconds;
 	};
