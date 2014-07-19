@@ -1,0 +1,42 @@
+@font-face {
+	font-family: FiraMono;
+	src: url('../font/FiraMono-Regular.ttf');
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: FiraMono;
+	src: url('../font/FiraMono-Bold.ttf');
+	font-weight: bold;
+}
+
+body#display {
+	background-color: black;
+	color: white;
+	font-family: FiraMono, monospace;
+	#counter_display {
+		width: 100%;
+		margin-top: 8rem;
+		font-weight: bold;
+		font-size: 8rem;
+		text-align: center;
+		color: white;
+	}
+	#counter_display.paused {
+		color: lawngreen;
+	}
+	#counter_display.timeup {
+		color: red;
+	}
+	#counter_display.twoMins {
+		color: yellow;
+	}
+	#helpMessage {
+		max-width: 100 vw;
+		margin-top: 4rem;
+		text-align: center;
+		font-weight: normal;
+		font-size: 3rem;
+	}
+}
+

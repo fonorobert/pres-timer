@@ -17,7 +17,12 @@
 var disp_writeTime = function(time) {
 	var counter = document.querySelector('#counter_display');
 	time = disp_formatTime(time);
-	counter.innerHTML = time.hours + ':' + time.minutes + ':' + time.seconds;
+	if (time.hours !== '00')
+	{
+		counter.innerHTML = time.hours + ':' + time.minutes + ':' + time.seconds;
+	} else {
+		counter.innerHTML = time.minutes + ':' + time.seconds;
+	}
 };
 
 window.addEventListener('tick', function(e){
@@ -27,9 +32,36 @@ window.addEventListener('tick', function(e){
 
 window.addEventListener('displayMessage', function(e){
 	var message = e.detail;
-	console.log(message);
 	document.querySelector('#helpMessage').innerHTML=message;
 });
+
+window.addEventListener('pause', function(){
+	var counter = document.querySelector('#counter_display');
+	counter.classList.add('paused');
+});
+
+window.addEventListener('start', function(){
+	var counter = document.querySelector('#counter_display');
+	counter.classList.remove('paused');
+	counter.classList.remove('timeup');
+});
+window.addEventListener('stop', function(){
+	var counter = document.querySelector('#counter_display');
+	counter.classList.remove('paused');
+	counter.classList.remove('timeup');
+	counter.classList.remove('twoMins');
+});
+
+window.addEventListener('timeUp', function(){
+	var counter = document.querySelector('#counter_display');
+	counter.classList.remove('twoMins');
+	counter.classList.add('timeup');
+});
+window.addEventListener('twoMins', function(){
+	var counter = document.querySelector('#counter_display');
+	counter.classList.add('twoMins');
+});
+
 
 var getTime = new Event('getTime');
 window.dispatchEvent(getTime);

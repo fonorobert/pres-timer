@@ -1,7 +1,7 @@
 //The class managing the conrtol window
 function Control() {
 	that = this;
-	this.displayWindow = window;
+	this.timerWindow = window;
 
 	this.build = function() {
 		var start = document.querySelector('#start');
@@ -115,7 +115,7 @@ function Control() {
 		var message = document.querySelector('input[name="message"]');
 		message.disabled = true;
 		var msgEvent = new CustomEvent('sendMessage', {'detail': message.value});
-		that.displayWindow.dispatchEvent(msgEvent);
+		that.timerWindow.dispatchEvent(msgEvent);
 	};
 
 	this.clearMessage = function() {
@@ -123,7 +123,7 @@ function Control() {
 		message.value = "";
 		message.disabled = false;
 		var msgEvent = new CustomEvent('sendMessage', {'detail': ""});
-		that.displayWindow.dispatchEvent(msgEvent);
+		that.timerWindow.dispatchEvent(msgEvent);
 	};
 	
 }

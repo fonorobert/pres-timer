@@ -65,6 +65,10 @@ function Timer()
 	//The main method that performs the countdown
 	//It's recursive! Don't be stupid with it!
 	this.tick = function() {
+		if (this.remainingTime === 120)
+		{
+			this.twoMins();
+		}
 		if(this.paused !== true && this.remainingTime > 0)
 		{
 			this.remainingTime -= 1;
@@ -72,6 +76,10 @@ function Timer()
 			this.timeArray = this.convertTime(this.remainingTime);
 			this.tickEvent();
 			this.controlWindow.setTimeout('self.tick()', this.interval);
+			if (this.remainingTime <= 0)
+			{
+				this.timeUp();
+			}
 		} else {
 			return false;
 		}
@@ -121,12 +129,16 @@ function Timer()
 	//This doesn't reset the timer, just starts whit whatever remainingTime is currently set 
 	this.start = function() {
 		this.paused = false;
+		var start = new Event('start');
+		self.timerWindow.dispatchEvent(start);
 		this.tick();
 		return true;
 	};
 
 	this.pause = function() {
 		this.paused = true;
+		var pause = new Event('pause');
+		self.timerWindow.dispatchEvent(pause);
 		return true;
 	};
 
@@ -134,6 +146,17 @@ function Timer()
 		this.pause();
 		this.setInterval(1000);
 		this.setTime(this.defaultTime); //Reset the timer
+		var stop = new Event('stop');
+		self.timerWindow.dispatchEvent(stop);
+	};
+
+	this.timeUp = function() {
+		var timeUp = new Event('timeUp');
+		self.timerWindow.dispatchEvent(timeUp);
+	};
+	this.twoMins = function() {
+		var twoMins = new Event('twoMins');
+		self.timerWindow.dispatchEvent(twoMins);
 	};
 
 	this.writeMessage = function(message) {
