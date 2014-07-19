@@ -25,5 +25,11 @@ window.addEventListener('tick', function(e){
 			disp_writeTime(time);
 });
 
+window.addEventListener('displayMessage', function(e){
+	var message = e.detail;
+	console.log(message);
+	document.querySelector('#helpMessage').innerHTML=message;
+});
+
 var getTime = new Event('getTime');
 window.dispatchEvent(getTime);

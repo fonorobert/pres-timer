@@ -1,4 +1,4 @@
-/*! pres-timer - v0.0.1 Build date: 2014-07-18 */var disp_formatTime = function(timeObject) {
+/*! pres-timer - v0.0.1 Build date: 2014-07-19 */var disp_formatTime = function(timeObject) {
 		for(var k in timeObject)
 		{
 			timeObject[k] = parseInt(timeObject[k]);
@@ -23,6 +23,12 @@ var disp_writeTime = function(time) {
 window.addEventListener('tick', function(e){
 			var time = e.detail;
 			disp_writeTime(time);
+});
+
+window.addEventListener('displayMessage', function(e){
+	var message = e.detail;
+	console.log(message);
+	document.querySelector('#helpMessage').innerHTML=message;
 });
 
 var getTime = new Event('getTime');

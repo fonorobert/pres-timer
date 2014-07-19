@@ -50,6 +50,9 @@ function Timer()
 		this.timerWindow.addEventListener('getTime', function(){
 			self.tickEvent();
 		});
+		this.controlWindow.addEventListener('sendMessage', function(e){
+			self.writeMessage(e.detail);
+		});
 
 	};
 
@@ -131,6 +134,11 @@ function Timer()
 		this.pause();
 		this.setInterval(1000);
 		this.setTime(this.defaultTime); //Reset the timer
+	};
+
+	this.writeMessage = function(message) {
+		var displayMessage = new CustomEvent('displayMessage', {'detail': message});
+		this.timerWindow.dispatchEvent(displayMessage);
 	};
 
 }

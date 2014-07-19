@@ -1,6 +1,7 @@
 //The class managing the conrtol window
 function Control() {
 	that = this;
+	this.displayWindow = window;
 
 	this.build = function() {
 		var start = document.querySelector('#start');
@@ -8,6 +9,8 @@ function Control() {
 		var stop = document.querySelector('#stop');
 		var interval = document.querySelector('input[name="interval"]');
 		var setTime = document.querySelector('#setTime');
+		var sendMessage = document.querySelector('button#sendMessage');
+		var clearMessage = document.querySelector('button#clearMessage');
 
 		window.addEventListener('tick', function(e){
 			var time = e.detail;
@@ -42,9 +45,19 @@ function Control() {
 			window.dispatchEvent(setTime);
 		});
 
+		sendMessage.addEventListener('click', function(){
+			that.sendMessage();
+		});
+
+		clearMessage.addEventListener('click', function(){
+			that.clearMessage();
+		});
+
+
 		//Initial setTime - tick event pair to show time on launch
 		var setTimeEvent = new CustomEvent('setTime', {'detail': this.readTime()});
 		window.dispatchEvent(setTimeEvent);
+
 
 	};
 
@@ -98,5 +111,19 @@ function Control() {
 		return interval;
 	};
 
+	this.sendMessage = function() {
+		var message = document.querySelector('input[name="message"]');
+		message.disabled = true;
+		var msgEvent = new CustomEvent('sendMessage', {'detail': message.value});
+		that.displayWindow.dispatchEvent(msgEvent);
+	};
+
+	this.clearMessage = function() {
+		var message = document.querySelector('input[name="message"]');
+		message.value = "";
+		message.disabled = false;
+		var msgEvent = new CustomEvent('sendMessage', {'detail': ""});
+		that.displayWindow.dispatchEvent(msgEvent);
+	};
 	
 }
