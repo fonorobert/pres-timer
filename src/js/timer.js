@@ -41,6 +41,7 @@ function Timer()
 			var time = parseInt(e.detail.hours) * 3600 + parseInt(e.detail.minutes) * 60 + parseInt(e.detail.seconds);
 			self.setTime(time);
 			self.timeArray = self.convertTime(self.remainingTime);
+			self.removeColors();
 			self.tickEvent();
 		});
 		this.controlWindow.addEventListener('setInterval', function(e){
@@ -65,12 +66,15 @@ function Timer()
 	//The main method that performs the countdown
 	//It's recursive! Don't be stupid with it!
 	this.tick = function() {
-		if (this.remainingTime === 120)
-		{
-			this.twoMins();
-		}
 		if(this.paused !== true && this.remainingTime > 0)
 		{
+			
+			//Check if there is less than 2 minutes less
+			if (this.remainingTime <= 120)
+			{
+				this.twoMins();
+			}
+
 			this.remainingTime -= 1;
 			//console.log(this.remainingTime);
 			this.timeArray = this.convertTime(this.remainingTime);
@@ -162,6 +166,11 @@ function Timer()
 	this.writeMessage = function(message) {
 		var displayMessage = new CustomEvent('displayMessage', {'detail': message});
 		this.timerWindow.dispatchEvent(displayMessage);
+	};
+
+	this.removeColors = function() {
+		var rmColors = new Event('rmColors');
+		self.timerWindow.dispatchEvent(rmColors);
 	};
 
 }

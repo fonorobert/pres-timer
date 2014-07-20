@@ -13,18 +13,18 @@
     <link href="css/main.css" rel="stylesheet">
 
   </head>
-  <body>
+  <body id="control">
   	<h2>Remaining time</h2>
   	<div id="counter_control" class="counter"></div>
-  	<button id="start">Start</button><button id="pause">Pause</button><button id="stop">Stop</button>
+  	<button id="start"><img src="res/play.png"></button><button id="pause"><img src="res/pause.png"></button><button id="stop"><img src="res/stop.png"></button>
   	<h2>Set up</h2>
   	<h3>Countdown time</h3>
-  	<input type="number" name="hours">:<input type="number" name="minutes" max="59" value="30">:<input type="number" name="seconds" max="59">
+  	<input type="tel" name="hours">&nbsp;:&nbsp;<input type="tel" name="minutes" max="59" value="30">&nbsp;:&nbsp;<input type="tel" name="seconds" max="59">
   	<button id="setTime">Set</button>
     <h3>Counter speed</h3>
     120%<input type="range" step="100" name="interval" min="800" max="1200" value="1000">80%
     <h2>Send help message</h2>
-    <input name="message" type="text"><button id="sendMessage">Send message</button><button id="clearMessage">Clear message</button>
+    <input name="message" type="text"><br><button id="sendMessage">Send message</button><button id="clearMessage">Clear message</button>
 
 
     
@@ -35,5 +35,9 @@
 			timer.build();
 			control.build();
     </script>
+    <!--
+    <div>Icon made by <a href="http://www.freepik.com" alt="Freepik.com" title="Freepik.com">Freepik</a> from <a href="http://www.flaticon.com/free-icon/stop-button-black-rounded-square_26518" title="Flaticon">www.flaticon.com</a></div>
+    -->
+
   </body>
 </html>
