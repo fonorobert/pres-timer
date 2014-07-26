@@ -8,7 +8,7 @@ module.exports = function(grunt) {
       banner: '/*! <%= pkg.name %> - v<%= pkg.version %> Build date: ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
     },
     dev_control: {
-      src: ['src/js/timer.js', 'src/js/control.js'],
+      src: ['src/js/timer.js', 'src/js/control.js', 'src/js/control_display.js'],
       dest: 'js/control.js',
     },
     dev_display: {
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> - v<%= pkg.version %> Build date: ' + '<%= grunt.template.today("yyyy-mm-dd") %> */',
       },
       files: {
-        'js/control.min.js': ['src/js/timer.js', 'src/js/control.js'],
+        'js/control.min.js': ['src/js/timer.js', 'src/js/control.js', 'src/js/control_display.js'],
         'js/display.min.js': ['src/js/display.js']
       },
     },
@@ -77,7 +77,7 @@ grunt.loadNpmTasks('grunt-contrib-concat');
 
 
 grunt.registerTask('dev', ['jshint:dev', 'concat:dev_control', 'concat:dev_display', 'less:dev']);
-grunt.registerTask('prof', ['uglify:prod', 'less:prod']);
+grunt.registerTask('prod', ['uglify:prod', 'less:prod']);
 
 
 };

@@ -1,4 +1,4 @@
-/*! pres-timer - v0.0.1 Build date: 2014-07-20 *///The Timer class
+/*! pres-timer - v0.0.1 Build date: 2014-07-26 *///The Timer class
 
 function Timer()
 {
@@ -157,10 +157,12 @@ function Timer()
 	this.timeUp = function() {
 		var timeUp = new Event('timeUp');
 		self.timerWindow.dispatchEvent(timeUp);
+		self.controlWindow.dispatchEvent(timeUp);
 	};
 	this.twoMins = function() {
 		var twoMins = new Event('twoMins');
 		self.timerWindow.dispatchEvent(twoMins);
+		self.controlWindow.dispatchEvent(twoMins);
 	};
 
 	this.writeMessage = function(message) {
@@ -171,6 +173,7 @@ function Timer()
 	this.removeColors = function() {
 		var rmColors = new Event('rmColors');
 		self.timerWindow.dispatchEvent(rmColors);
+		self.controlWindow.dispatchEvent(rmColors);
 	};
 
 }
@@ -303,3 +306,38 @@ function Control() {
 	};
 	
 }
+var removeColors = function() {
+	var counter = document.querySelector('#counter_control');
+	counter.classList.remove('paused');
+	counter.classList.remove('timeup');
+	counter.classList.remove('twoMins');
+};
+
+window.addEventListener('rmColors', function(){
+	removeColors();
+});
+
+window.addEventListener('pause', function(){
+	var counter = document.querySelector('#counter_control');
+	removeColors();
+	counter.classList.add('paused');
+});
+
+window.addEventListener('start', function(){
+	var counter = document.querySelector('#counter_control');
+	removeColors();
+});
+window.addEventListener('stop', function(){
+	var counter = document.querySelector('#counter_control');
+	removeColors();
+});
+
+window.addEventListener('timeUp', function(){
+	var counter = document.querySelector('#counter_control');
+	removeColors();
+	counter.classList.add('timeup');
+});
+window.addEventListener('twoMins', function(){
+	var counter = document.querySelector('#counter_control');
+	counter.classList.add('twoMins');
+});

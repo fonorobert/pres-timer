@@ -157,10 +157,12 @@ function Timer()
 	this.timeUp = function() {
 		var timeUp = new Event('timeUp');
 		self.timerWindow.dispatchEvent(timeUp);
+		self.controlWindow.dispatchEvent(timeUp);
 	};
 	this.twoMins = function() {
 		var twoMins = new Event('twoMins');
 		self.timerWindow.dispatchEvent(twoMins);
+		self.controlWindow.dispatchEvent(twoMins);
 	};
 
 	this.writeMessage = function(message) {
@@ -171,6 +173,7 @@ function Timer()
 	this.removeColors = function() {
 		var rmColors = new Event('rmColors');
 		self.timerWindow.dispatchEvent(rmColors);
+		self.controlWindow.dispatchEvent(rmColors);
 	};
 
 }

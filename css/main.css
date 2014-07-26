@@ -1,44 +1,4 @@
 @import '../bower_components/normalize.css/normalize.css';
-
-@font-face {
-  font-family: FiraMono;
-  src: url('../font/FiraMono-Regular.ttf');
-  font-weight: normal;
-}
-@font-face {
-  font-family: FiraMono;
-  src: url('../font/FiraMono-Bold.ttf');
-  font-weight: bold;
-}
-body#display {
-  background-color: black;
-  color: white;
-  font-family: FiraMono, monospace;
-}
-body#display #counter_display {
-  width: 100%;
-  margin-top: 8rem;
-  font-weight: bold;
-  font-size: 8rem;
-  text-align: center;
-  color: white;
-}
-body#display #counter_display.paused {
-  color: lawngreen;
-}
-body#display #counter_display.timeup {
-  color: red;
-}
-body#display #counter_display.twoMins {
-  color: yellow;
-}
-body#display #helpMessage {
-  max-width: 100 vw;
-  margin-top: 4rem;
-  text-align: center;
-  font-weight: normal;
-  font-size: 3rem;
-}
 body#control {
   background-color: #ecf0f1;
   text-align: center;
@@ -59,6 +19,15 @@ body#control #counter_control {
   font-size: 4rem;
   margin-bottom: 6px;
   font-family: FiraMono, monospace;
+}
+body#control #counter_control.paused {
+  color: green;
+}
+body#control #counter_control.timeup {
+  color: red;
+}
+body#control #counter_control.twoMins {
+  color: gold;
 }
 body#control button {
   margin-left: 6px;
@@ -147,3 +116,44 @@ body#control input[type='range']::-webkit-slider-thumb {
   height: 20px;
   width: 20px;
 }
+
+@font-face {
+  font-family: FiraMono;
+  src: url('../font/FiraMono-Regular.ttf');
+  font-weight: normal;
+}
+@font-face {
+  font-family: FiraMono;
+  src: url('../font/FiraMono-Bold.ttf');
+  font-weight: bold;
+}
+body#display {
+  background-color: black;
+  color: white;
+  font-family: FiraMono, monospace;
+}
+body#display #counter_display {
+  width: 100%;
+  margin-top: 8rem;
+  font-weight: bold;
+  font-size: 8rem;
+  text-align: center;
+  color: white;
+}
+body#display #counter_display.paused {
+  color: lawngreen;
+}
+body#display #counter_display.timeup {
+  color: red;
+}
+body#display #counter_display.twoMins {
+  color: yellow;
+}
+body#display #helpMessage {
+  max-width: 100 vw;
+  margin-top: 4rem;
+  text-align: center;
+  font-weight: normal;
+  font-size: 3rem;
+}
+

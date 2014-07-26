@@ -1,6 +1,6 @@
 {
   "name": "pres-timer",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A multi-window, javascript based presentation timer",
   "main": "index.js",
   "scripts": {
