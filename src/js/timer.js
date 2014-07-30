@@ -7,7 +7,7 @@ function Timer()
 	//Object properties
 
 	this.interval = 1000;
-	this.paused = false;
+	this.paused = true;
 	this.defaultTime = 60; //Default time, this is where the this.stop() resets the timer after stopping
 	this.remainingTime = this.defaultTime; //Sets timer to defaultTime on instantiation (first run)
 	this.timeArray = {};
@@ -132,10 +132,14 @@ function Timer()
 	//Start the countdown
 	//This doesn't reset the timer, just starts whit whatever remainingTime is currently set 
 	this.start = function() {
-		this.paused = false;
-		var start = new Event('start');
-		self.timerWindow.dispatchEvent(start);
-		this.tick();
+		if (this.paused === true)
+		{
+			this.paused = false;
+			this.tick();
+		} else {
+			var start = new Event('start');		
+			self.timerWindow.dispatchEvent(start);
+		}
 		return true;
 	};
 

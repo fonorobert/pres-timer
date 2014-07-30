@@ -1,4 +1,4 @@
-/*! pres-timer - v0.0.1 Build date: 2014-07-26 */var disp_formatTime = function(timeObject) {
+/*! pres-timer - v1.0.0 Build date: 2014-07-30 */var disp_formatTime = function(timeObject) {
 		for(var k in timeObject)
 		{
 			timeObject[k] = parseInt(timeObject[k]);
